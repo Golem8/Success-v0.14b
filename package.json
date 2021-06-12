@@ -1,0 +1,23 @@
+{
+  "name": "pinbot",
+  "version": "1.0.0",
+  "description": "Copies pins into a seperate discord channel to bypass the pin limit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Golem8/pinbot.git"
+  },
+  "author": "Golem8",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Golem8/pinbot/issues"
+  },
+  "homepage": "https://github.com/Golem8/pinbot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0"
+  }
+}
