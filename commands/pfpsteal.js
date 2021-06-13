@@ -1,0 +1,37 @@
+module.exports = {
+	name: 'pfpsteal',
+	description: 'sets the bot\'s profile pic to your pfp, or to the tagged user\'s pfp',
+	usage: '<user>',
+	guildOnly: true,
+	aliases: ['avatarsteal','pfpvampire', 'avatarvampire'],
+	cooldown: 5,
+
+	execute(message, args) {
+		console.log('pfpsteal file. Is this the bot?');
+		console.log(message.client);
+
+		if (!message.mentions.users.size) {
+			//dynamic = false to not take .gif in. That may crash it
+			stolen_img=message.author.displayAvatarURL({ format: 'png', dynamic: false });
+
+			message.client.user.setAvatar(stolen_img)
+				.then(user => console.log(`Stealing ${message.author}\'s pfp, it can be found here: ${stolen_img}`))
+				.catch(console.error);
+
+			message.channel.send('Nom Nom Nom profile pic stolen');
+        } else {
+
+			user=message.mentions.users.first()
+
+			stolen_img=user.displayAvatarURL({ format: 'png', dynamic: false })
+
+			//console.log(stolen_img)
+
+			message.client.user.setAvatar(stolen_img)
+				.then(user => console.log(`Stealing ${message.author}\'s pfp, it can be found here: ${stolen_img}`))
+				.catch(console.error);
+
+			message.channel.send('Nom Nom Nom profile pic stolen');
+		}
+	},
+};

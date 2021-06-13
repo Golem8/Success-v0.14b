@@ -23,32 +23,5 @@ client.on('typingStart', function(channel, user) {
 });
 
 
-
-//profile pic vampire
-client.on('message', message => {
-    if (message.content.startsWith( `${process.env.COMMAND_PREFIX}pfpvampire`)) {
-
-        if (!message.mentions.users.size) {
-            return message.reply(`Ping someone to steal their profile pic`);
-        }
-
-        user=message.mentions.users.first()
-        //console.log(user)
-        stolen_img=user.displayAvatarURL({ format: 'png', dynamic: true })
-
-        //console.log(stolen_img)
-
-        client.user.setAvatar(stolen_img)
-            .then(user => console.log(`New avatar set!`))
-            .catch(console.error);
-        
-	} else if(message.content === `${process.env.COMMAND_PREFIX}pfpreset`){
-        client.user.setAvatar('https://cdn.discordapp.com/embed/avatars/0.png')
-            .then(user => console.log(`New avatar set!`))
-            .catch(console.error);
-    }
-});
-
-
 // login to Discord with your app's token
 client.login(process.env.BOT_TOKEN);
