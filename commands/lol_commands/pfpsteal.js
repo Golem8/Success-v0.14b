@@ -5,6 +5,7 @@ module.exports = {
 	guildOnly: true,
 	aliases: ['avatarsteal','pfpvampire', 'avatarvampire'],
 	cooldown: 5,
+	argsRequired: false,
 
 	execute(message, args) {
 		console.log('pfpsteal exectued');
