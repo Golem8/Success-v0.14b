@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/Golem8/pinbot#readme",
   "dependencies": {
+    "@keyv/sqlite": "^2.0.2",
     "discord.js": "^12.5.3",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "keyv": "^4.0.3",
+    "lodash": "^4.17.21"
   }
 }
