@@ -7,6 +7,7 @@ module.exports = {
 	guildOnly: true,
 	aliases: ['requestfeature','featurerequest'],
 	cooldown: 60,
+	argsRequired: false,
 
 	execute(message, args) {
         console.log("new feature requested")
