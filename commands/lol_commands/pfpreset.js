@@ -4,14 +4,15 @@ module.exports = {
 	guildOnly: true,
 	aliases: ['avatarreset'],
 	cooldown: 5,
+	argsRequired: false,
 
 	execute(message, args) {
 		console.log('reset pfp executed')
-		
+
         message.client.user.setAvatar('https://cdn.discordapp.com/embed/avatars/0.png')
             .then(user => {
 				console.log(`New avatar set!`);
-				message.channel.send('Nom Nom Nom profile pic stolen');
+				message.channel.send('Nom Nom Nom profile pic reset');
 			})
             .catch(console.error);	
 	},
