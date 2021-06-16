@@ -12,7 +12,7 @@ module.exports = {
         message.client.user.setAvatar('https://cdn.discordapp.com/embed/avatars/0.png')
             .then(user => {
 				console.log(`New avatar set!`);
-				message.channel.send('Nom Nom Nom profile pic reset');
+				message.channel.send('Profile pic reset');
 			})
             .catch(console.error);	
 	},
