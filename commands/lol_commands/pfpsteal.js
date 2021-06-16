@@ -8,7 +8,6 @@ module.exports = {
 	argsRequired: false,
 
 	execute(message, args) {
-		console.log('pfpsteal exectued');
 
 		if (!message.mentions.users.size) {
 			//dynamic = false to not take .gif in. That may crash it

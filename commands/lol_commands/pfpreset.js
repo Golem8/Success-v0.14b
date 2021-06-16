@@ -7,7 +7,6 @@ module.exports = {
 	argsRequired: false,
 
 	execute(message, args) {
-		console.log('reset pfp executed')
 
         message.client.user.setAvatar('https://cdn.discordapp.com/embed/avatars/0.png')
             .then(user => {
