@@ -32,8 +32,8 @@ for (const folder of commandFolders) {
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
 client.once('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-  });
+  console.log(`Logged in as ${client.user.tag}!`);
+});
 
 client.on('message', message => {
 
@@ -50,15 +50,16 @@ client.on('message', message => {
 
     const commandObj = client.commands.get(commandName);
     if(commandObj === undefined) return;
-    
+  
     if (commandObj.ardgsRequired && !args.length) {
       return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
     }
 
     try {
+        console.log(`${commandObj.name} attempted to execute`);
         commandObj.execute(message, args);
     } catch (error) {
-        console.error(error)
+        console.error(error);
     }
 
 
@@ -66,16 +67,20 @@ client.on('message', message => {
 
 async function scanPingLists(message){
   users = await db.get('pingWordUsers');
+  if (users === undefined) return;
+
   //looping through each user
   users.forEach(async userSnowflake => {
     pingStringsArr = await db.get(userSnowflake);
+    if (pingStringsArr === undefined) return;
+
     pingStringsArr.forEach(async string => {
       //now looping through each string for the user
       if (message.content.toLowerCase().includes(string.toLowerCase())){
 
-        res = []
+        res = [];
         res.push(`Your pingword "${string}" was used by ${message.author.username} in ${message.channel} in server "${message.guild.name}"`);
-        res.push('See message link below')
+        res.push('See message link below');
         res.push(message.url);
 
         message.client.users.fetch(userSnowflake).then(response => response.send(res))
