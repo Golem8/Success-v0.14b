@@ -28,7 +28,7 @@ module.exports = {
             await this.createList(message);
 
             //get their current array and record the senderid
-            let sender = message.author;
+            let sender = message.author.id;
             let currentList = await db.get(sender);
 
             //update the array and db and respond to user
@@ -46,7 +46,7 @@ module.exports = {
             //create db entry if they do not have one yet
             await this.createList(message);
 
-            let sender = message.author;
+            let sender = message.author.id;
             currentList = await db.get(sender);
 
             //make sure this was one of their pingwords
@@ -69,17 +69,17 @@ module.exports = {
             //creates a db entry if they do not have one
             await this.createList(message);
 
-            let sender = message.author;
+            let sender = message.author.id;
             let currentList = await db.get(sender);
 
             //list their pingwords
-            db.get(message.author).then(response => {
+            db.get(sender).then(response => {
                 message.reply(`Here is your pinglist: ${JSON.stringify(response)}`)
             });
 
         } else if (utility === 'removeall') {
             //doesnt matter if they have a list registered yet, just set it to empty
-            db.set(message.author,[]);
+            db.set(message.author.id,[]);
             message.reply("Your pingwords list has been reset");
         }else {
             message.reply(`Please follow: !pingword ${this.usage}`)
@@ -88,13 +88,29 @@ module.exports = {
 
     //creates a new db entry if it does not exist yet
     async createList(message){
-        let sender = message.author;
+        let sender = message.author.id;
         let currentList = await db.get(sender);
+        let currentKeys = await db.get('pingWordUsers');
 
         if(currentList===undefined){
             //create entry for that user
             console.log('Making new db entry for user ' + sender);
+            await db.set(sender,[]);
         } 
-        await db.set(message.author,[]);
+
+        if(currentKeys===undefined){
+            //create entry for pingWordUsers
+            console.log('Making new db entry for pingWordUsers');
+            await db.set('pingWordUsers',[]);
+            currentKeys=[];
+        }
+
+        if(!currentKeys.includes(sender)){
+            console.log('adding user ' + sender +' to db keys');
+            currentKeys.push(sender);
+            await db.set('pingWordUsers', currentKeys);
+        }
+        console.log(await db.get('pingWordUsers'));
+        
     },
 };
