@@ -29,7 +29,6 @@ module.exports = Pingwords;
 const client = new Discord.Client();
 
 client.commands = new Discord.Collection();
-
 const commandFolders = fs.readdirSync('./commands');
 
 //loop through all .js files in all of the folders under 'commands'
@@ -40,6 +39,14 @@ for (const folder of commandFolders) {
 
 		client.commands.set(command.name, command);
 	}
+}
+
+const messageScanners = fs.readdirSync('./responders');
+client.responders = new Discord.Collection();
+
+for (const file of messageScanners) {
+	const responder = require(`./responders/${file}`);
+	client.responders.set(responder.name, responder);
 }
 
 
@@ -58,9 +65,19 @@ client.on('message', message => {
 
     scanPingLists(message);
 
+    //loop through all responders.
+    client.responders.forEach((value, key) => {
+      const responder = client.responders.get(key);
+      try {
+        responder.execute(message);
+      } catch (error) {
+          console.error(error);
+      }
+    })
+
     //bots cant send commands
     if (!message.content.startsWith(process.env.COMMAND_PREFIX)) return;
-    
+
     //regex to split on spaces
     const args = message.content.slice(process.env.COMMAND_PREFIX.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
