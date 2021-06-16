@@ -109,8 +109,6 @@ module.exports = {
             console.log('adding user ' + sender +' to db keys');
             currentKeys.push(sender);
             await db.set('pingWordUsers', currentKeys);
-        }
-        console.log(await db.get('pingWordUsers'));
-        
+        }       
     },
 };
