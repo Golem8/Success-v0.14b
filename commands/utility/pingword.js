@@ -10,32 +10,32 @@ module.exports = {
     usage: '<add/remove/list/removeall> <pingword>',
 
     //main one first creates the db
-	execute(message, args) {
-        //add remove list
+	async execute(message, args) {
+        //gets the pingword utility (as of now, add/remove/list/removeall)
         utility = args[0];
+
+        //gets the string to be added / removed
         args.shift();
-        db.clear();
         pingstring = args.join(' ');
 
-        //create new pingwords entry if it does not already exist for message.author
-       
         if (utility === 'add'){
+            //first check if they provided the needed args
             if (!pingstring.length){
                 return message.reply("You cant add nothing, add the string afterwards");
             }
 
-        
-            (async () => {
-                await this.createList(message);
+            //make a new entry for this user if they do not have one yet
+            await this.createList(message);
 
-                let sender = message.author;
-                let currentList = await db.get(sender);
-    
-                //update the array and db and respond to user
-                currentList.push(pingstring)
-                await db.set(sender, currentList);
-                message.reply(`Here is your updated pinglist: ${JSON.stringify(currentList)}`)
-            })();
+            //get their current array and record the senderid
+            let sender = message.author;
+            let currentList = await db.get(sender);
+
+            //update the array and db and respond to user
+            currentList.push(pingstring)
+            await db.set(sender, currentList);
+            message.reply(`Here is your updated pinglist: ${JSON.stringify(currentList)}`)
+
 
         } else if (utility === 'remove'){
             //makes sure there is a string included
@@ -43,48 +43,42 @@ module.exports = {
                 return message.reply("You cant remove nothing, add the string afterwards");
             }
 
+            //create db entry if they do not have one yet
+            await this.createList(message);
 
-            (async () => {
+            let sender = message.author;
+            currentList = await db.get(sender);
 
-                await this.createList(message);
+            //make sure this was one of their pingwords
+            if(!currentList.includes(pingstring)){
+                return message.reply(`That was not one of your pingwords, this is your list: ${JSON.stringify(currentList)}`);
+            }
 
-                let sender = message.author;
-                currentList = await db.get(sender);
+            //removes it
+            const index = currentList.indexOf(pingstring);
+            if (index > -1) {
+                currentList.splice(index, 1);
+            }
 
-                //make sure the entry is there
-                if(!currentList.includes(pingstring)){
-                    return message.reply(`That was not one of your pingwords, this is your list: ${JSON.stringify(currentList)}`);
-                }
+            //update db and respond to the user
+            await db.set(sender, currentList);
+            message.reply(`Here is your updated pinglist: ${JSON.stringify(currentList)}`)
 
-                //removes it
-                const index = currentList.indexOf(pingstring);
-                if (index > -1) {
-                    currentList.splice(index, 1);
-                }
-
-                //update db and respond to the user
-                await db.set(sender, currentList);
-                message.reply(`Here is your updated pinglist: ${JSON.stringify(currentList)}`)
-            })();
 
         } else if (utility === 'list'){
+            //creates a db entry if they do not have one
+            await this.createList(message);
 
-            
-            (async () => {
-                await this.createList(message);
+            let sender = message.author;
+            let currentList = await db.get(sender);
 
-                //verifies that the db key exists
-                let sender = message.author;
-                let currentList = await db.get(sender);
+            //list their pingwords
+            db.get(message.author).then(response => {
+                message.reply(`Here is your pinglist: ${JSON.stringify(response)}`)
+            });
 
-                //list pinglist
-                db.get(message.author).then(response => {
-                    message.reply(`Here is your pinglist: ${JSON.stringify(response)}`)
-                });
-            })();
-
-            
         } else if (utility === 'removeall') {
+            //doesnt matter if they have a list registered yet, just set it to empty
             db.set(message.author,[]);
             message.reply("Your pingwords list has been reset");
         }else {
@@ -92,6 +86,7 @@ module.exports = {
         }
 	},
 
+    //creates a new db entry if it does not exist yet
     async createList(message){
         let sender = message.author;
         let currentList = await db.get(sender);
