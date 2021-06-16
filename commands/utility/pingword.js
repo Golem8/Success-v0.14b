@@ -1,4 +1,4 @@
-db = require('../../index');
+pingdb = require('../../index');
 
 module.exports = {
 	name: 'pingword',
@@ -7,7 +7,7 @@ module.exports = {
 	aliases: ['pingstring'],
 	cooldown: 60,
     argsRequired: true,
-    usage: '<add/remove/list/removeall> <pingword>',
+    usage: 'pingword <add/remove/list/removeall> <pingword>',
 
     //main one first creates the db
 	async execute(message, args) {
@@ -29,13 +29,12 @@ module.exports = {
 
             //get their current array and record the senderid
             let sender = message.author.id;
-            let currentList = await db.get(sender);
+            let currentList = JSON.parse(await this.getCurrentList(message));
 
             //update the array and db and respond to user
             currentList.push(pingstring)
-            await db.set(sender, currentList);
+            await pingdb.update({ strings: JSON.stringify(currentList) }, { where: { username: message.author.id } });
             message.reply(`Here is your updated pinglist: ${JSON.stringify(currentList)}`)
-
 
         } else if (utility === 'remove'){
             //makes sure there is a string included
@@ -47,7 +46,7 @@ module.exports = {
             await this.createList(message);
 
             let sender = message.author.id;
-            currentList = await db.get(sender);
+            let currentList = JSON.parse(await this.getCurrentList(message));
 
             //make sure this was one of their pingwords
             if(!currentList.includes(pingstring)){
@@ -61,54 +60,52 @@ module.exports = {
             }
 
             //update db and respond to the user
-            await db.set(sender, currentList);
+            await pingdb.update({ strings: JSON.stringify(currentList) }, { where: { username: message.author.id } });
             message.reply(`Here is your updated pinglist: ${JSON.stringify(currentList)}`)
 
 
         } else if (utility === 'list'){
-            //creates a db entry if they do not have one
-            await this.createList(message);
-
-            let sender = message.author.id;
-            let currentList = await db.get(sender);
-
-            //list their pingwords
-            db.get(sender).then(response => {
-                message.reply(`Here is your pinglist: ${JSON.stringify(response)}`)
-            });
+            return message.reply(`Here is your pinglist: ${await this.getCurrentList(message)}`);
 
         } else if (utility === 'removeall') {
-            //doesnt matter if they have a list registered yet, just set it to empty
-            db.set(message.author.id,[]);
-            message.reply("Your pingwords list has been reset");
+            //make list if they dont have one yet
+            await this.createList(message);
+            //set it to empty
+            const affectedRows = await pingdb.update({ strings: JSON.stringify([]) }, { where: { username: message.author.id } });
+            //if changes were made
+            if (affectedRows > 0) {
+                return message.reply("Your pingwords list has been reset");
+            }
+            return console.log(`ERROR: Unable to find db entry for user ${message.author.id}, utility = removeall`);
+            
         }else {
-            message.reply(`Please follow: !pingword ${this.usage}`)
+            return message.reply(`Please follow: !${this.usage}`)
         }
 	},
 
     //creates a new db entry if it does not exist yet
     async createList(message){
         let sender = message.author.id;
-        let currentList = await db.get(sender);
-        let currentKeys = await db.get('pingWordUsers');
-
-        if(currentList===undefined){
-            //create entry for that user
+        try {
+            
+            const newUser = await pingdb.create({
+                username: sender,
+                strings: JSON.stringify([]),
+            });
             console.log('Making new db entry for user ' + sender);
-            await db.set(sender,[]);
-        } 
-
-        if(currentKeys===undefined){
-            //create entry for pingWordUsers
-            console.log('Making new db entry for pingWordUsers');
-            await db.set('pingWordUsers',[]);
-            currentKeys=[];
         }
-
-        if(!currentKeys.includes(sender)){
-            console.log('adding user ' + sender +' to db keys');
-            currentKeys.push(sender);
-            await db.set('pingWordUsers', currentKeys);
-        }       
+        catch (e) {
+            if (e.name === 'SequelizeUniqueConstraintError') {
+                return console.log('User already in db');
+            }
+            return console.log('Error creating tag');
+        }  
     },
+
+    async getCurrentList(message){
+        //creates a db entry if they do not have one
+        await this.createList(message);
+        const dbEntry = await pingdb.findOne({ where: { username: message.author.id } });
+        return dbEntry.get('strings');
+    } 
 };

@@ -2,13 +2,28 @@ require('dotenv').config();
 
 const Discord = require('discord.js');
 const fs = require('fs')
+const Sequelize = require('sequelize');
 
-const Keyv = require('keyv');
+const sequelize = new Sequelize('database', 'user', 'password', {
+	host: 'localhost',
+	dialect: 'sqlite',
+	logging: false,
+	// SQLite only
+	storage: 'database.sqlite',
+});
 
-const pingwords = new Keyv('sqlite://./database.sqlite');
-pingwords.on('error', err => console.error('Keyv connection error:', err));
+const Pingwords = sequelize.define('pingwords', {
+	username: {
+		type: Sequelize.STRING,
+		unique: true,
+	},
+	strings: {
+		type: Sequelize.TEXT,
+		defaultValue: '[]'
+	},
+});
 
-module.exports = pingwords;
+module.exports = Pingwords;
 
 // create a new Discord client
 const client = new Discord.Client();
@@ -32,7 +47,9 @@ for (const folder of commandFolders) {
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
 client.once('ready', () => {
+  Pingwords.sync();
   console.log(`Logged in as ${client.user.tag}!`);
+  
 });
 
 client.on('message', message => {
@@ -43,7 +60,7 @@ client.on('message', message => {
 
     //bots cant send commands
     if (!message.content.startsWith(process.env.COMMAND_PREFIX)) return;
-
+    
     //regex to split on spaces
     const args = message.content.slice(process.env.COMMAND_PREFIX.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
@@ -66,13 +83,23 @@ client.on('message', message => {
 });
 
 async function scanPingLists(message){
-  users = await db.get('pingWordUsers');
-  if (users === undefined) return;
 
+  const list = await Pingwords.findAll({ attributes: ['username'] });
+
+  if (list == undefined) return;
+
+  const users = list.map(t => t.username);
+
+  
   //looping through each user
   users.forEach(async userSnowflake => {
-    pingStringsArr = await db.get(userSnowflake);
-    if (pingStringsArr === undefined) return;
+
+    const dbEntry = await pingdb.findOne({ where: { username: userSnowflake } });
+
+    if (dbEntry == undefined) return;
+
+    const pingStringsArr = JSON.parse(dbEntry.get('strings'));
+
 
     pingStringsArr.forEach(async string => {
       //now looping through each string for the user
