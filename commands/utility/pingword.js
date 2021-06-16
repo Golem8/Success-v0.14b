@@ -1,4 +1,4 @@
-pingdb = require('../../index');
+const pingdb = require('../../index');
 
 module.exports = {
 	name: 'pingword',
