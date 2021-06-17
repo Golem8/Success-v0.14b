@@ -1,4 +1,5 @@
-const pingdb = require('../index');
+const pingdb = require('../db').Pingwords;
+
 
 module.exports = {
 	name: 'scanPingLists',
