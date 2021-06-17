@@ -13,7 +13,7 @@ module.exports = {
         console.log("new feature requested")
         
         res = []
-        res.push(`Request From ${message.author}`);
+        res.push(`Request from ${message.author}`);
         res.push(`Request body: ${args.join(' ')}`);
 
         message.client.users.fetch(process.env.FEATURE_REQ_SNOWFLAKE).then(response => response.send(res))
