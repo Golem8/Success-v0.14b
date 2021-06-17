@@ -14,6 +14,7 @@ module.exports = {
         
         res = []
         res.push(`Request from ${message.author}`);
+		res.push(`Request from server ${message.guild.name}`);
         res.push(`Request body: ${args.join(' ')}`);
 
         message.client.users.fetch(process.env.FEATURE_REQ_SNOWFLAKE).then(response => response.send(res))
