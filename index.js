@@ -87,7 +87,7 @@ client.on('message', message => {
     }
 
     try {
-        console.log(`${commandObj.name} attempted to execute`);
+        console.log(`${message.author.username} attempted to execute ${commandObj.name} `);
         commandObj.execute(message, args);
     } catch (error) {
         console.error(error);
