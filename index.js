@@ -4,11 +4,9 @@ const Discord = require('discord.js');
 const fs = require('fs')
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('database', 'user', 'password', {
-	host: 'localhost',
+const sequelize = new Sequelize({
 	dialect: 'sqlite',
 	logging: false,
-	// SQLite only
 	storage: 'database.sqlite',
 });
 
