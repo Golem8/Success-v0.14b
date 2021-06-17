@@ -3,6 +3,7 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const fs = require('fs')
 const Sequelize = require('sequelize');
+const prefix = '!';
 
 const sequelize = new Sequelize({
 	dialect: 'sqlite',
@@ -72,10 +73,10 @@ client.on('message', message => {
     })
 
     //bots cant send commands
-    if (!message.content.startsWith(process.env.COMMAND_PREFIX)) return;
+    if (!message.content.startsWith(prefix)) return;
 
     //regex to split on spaces
-    const args = message.content.slice(process.env.COMMAND_PREFIX.length).trim().split(/ +/);
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
     const commandObj = client.commands.get(commandName);
