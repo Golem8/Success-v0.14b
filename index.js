@@ -40,7 +40,7 @@ client.once('ready', () => {
   db.Pingwords.sync();
   db.Reminders.sync();
   db.DotCommands.sync();
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Logged in as ${client.user.tag} on ${Date()}`);
   
 });
 
