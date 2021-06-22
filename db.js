@@ -18,17 +18,20 @@ const Pingwords = sequelize.define('pingwords', {
 });
 
 const Reminders = sequelize.define('reminders', {
-	username: {
-		type: Sequelize.STRING,
-		unique: true,
-	},
-	strings: {
-		type: Sequelize.TEXT,
-		defaultValue: '[]'
-	},
+	username: Sequelize.STRING,
+	remindTime: Sequelize.DATE,
+	returnChannel: Sequelize.STRING,
+	returnMessage: Sequelize.TEXT,
+});
+
+const DotCommands = sequelize.define('dotcmds', {
+	serverid: Sequelize.STRING,
+	dotname: Sequelize.STRING,
+	cmdoutput: Sequelize.STRING,
 });
 
 module.exports = {
     Pingwords,
-    Reminders
+    Reminders,
+	DotCommands,
 };
