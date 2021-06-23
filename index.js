@@ -7,7 +7,7 @@ const prefix = '!';
 
 db = require('./db');
 
-// comment
+// comments
 // create a new Discord client
 const client = new Discord.Client();
 
