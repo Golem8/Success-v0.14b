@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const Discord = require('discord.js');
 const fs = require('fs');
+const { getHeapSpaceStatistics } = require('v8');
 const { Reminders } = require('./db');
 const prefix = '!';
 
@@ -44,9 +45,43 @@ client.once('ready', () => {
   
 });
 
-client.on('message', message => {
+const getApp = (guildId) => {
+  const app = client.api.applications(client.user.id)
+  if (guildId) {
+    app.guilds(guildId)
+  }
+  return app
+}
 
+client.on('message', async message => {
+    console.log('msg')
     if(message.author.bot) return;
+
+    const commands = await getApp(message.guild.id).commands.get()
+
+    await getApp(message.guild.id).commands.post({
+      data: {
+        name: 'ping',
+        description: 'ping pong',
+      },
+    })
+
+    client.ws.on('INTERACTION_CREATE', async (interaction) => {
+      const command = interaction.data.name.toLowerCase()
+
+      console.log(command)
+
+      if (command === 'ping') {
+        client.api.interactions(interaction.id, interaction.token).callback.post({
+          data: {
+            type: 4,
+            data: {
+              content: 'pong'
+            }
+          }
+        })
+      }
+    })
 
     //loop through all responders.
     client.responders.forEach((value, key) => {
