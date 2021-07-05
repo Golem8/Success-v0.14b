@@ -41,11 +41,15 @@ client.once('ready', () => {
   db.Reminders.sync();
   db.DotCommands.sync();
   console.log(`Logged in as ${client.user.tag} on ${Date()}`);
-  
+  client.user.setActivity("EVE Online"); 
+
+  // start the reminder checking loop ever 1000 ms
+  // https://stackoverflow.com/a/21369255/16337945
+  checkReminders();
+  setInterval(checkReminders,1000);
 });
 
 client.on('message', message => {
-
     if(message.author.bot) return;
 
     //loop through all responders.
@@ -89,31 +93,32 @@ client.on('message', message => {
 
 });
 
-// recrusion to check for reminders frequently 
-// https://stackoverflow.com/a/45754959
 async function checkReminders()
 {
   //get all usernames
-  const list = await pingdb.findAll({ attributes: ['username'] }); 
+  const list = await Reminders.findAll(); 
   if (list == undefined) return;
 
-  const users = list.map(t => t.username);
-  const timems = Date.now();
+  //looping through each reminder uuid
+  list.forEach(async reminder => {
+    if (reminder == undefined) return;
 
+    // get the reminder time in ms since 1970
+    const remindTime = Date.parse(reminder.remindTime);
+    const timeCurrent = Date.now();
 
-  //looping through each user
-  users.forEach(async userSnowflake => {
-      
-    const dbEntry = await pingdb.findOne({ where: { username: userSnowflake } });
+    // if the time has come, construct a response, send it, and remove the db entry
+    if (remindTime < timeCurrent) {
+      res = [];
+      res.push(`<@${reminder.dataValues.username}>, your reminder is fully cooked`);
+      res.push(`You wanted to be reminded: ${reminder.dataValues.returnMessage}`);
+      res.push(`${reminder.messageLink}`);
 
-    if (dbEntry == undefined) return;
-
-    const remindTime = dbEntry.get('remindTime');
-    console.log('Remind time' + remindTime)
-
+      client.channels.cache.get(reminder.returnChannel).send(res);
+      const rowCount = await Reminders.destroy({ where: { uuid: reminder.uuid } });
+      if (!rowCount) console.error('No reminder found to delete');
+    }
   });
-
-  return Promise.delay(1000).then(() => a());
 }
 
 

@@ -22,6 +22,12 @@ const Reminders = sequelize.define('reminders', {
 	remindTime: Sequelize.DATE,
 	returnChannel: Sequelize.STRING,
 	returnMessage: Sequelize.TEXT,
+	uuid: {
+		type: Sequelize.UUID,
+		allowNull: false,
+		primaryKey: true
+	  },
+	  messageLink: Sequelize.STRING,
 });
 
 const DotCommands = sequelize.define('dotcmds', {
