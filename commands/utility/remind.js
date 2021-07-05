@@ -48,16 +48,23 @@ module.exports = {
         }
         remindTime = Date.now() + (604800000 * weeks) + (86400000 * days) + (3600000 * hours) + (60000 * minutes) + (1000 * seconds);
         uuid = uuidv4();
-        await Reminders.create({
-            //snowflake
-            username: message.author.id,
-            remindTime: remindTime,
-            returnChannel: message.channel.id,
-            returnMessage: remindMessage,
-            uuid: uuid,
-            messageLink: message.url,
-        });
-        this.addReminder(uuid, message.client);
+        try {
+            await Reminders.create({
+                //snowflake
+                username: message.author.id,
+                remindTime: remindTime,
+                returnChannel: message.channel.id,
+                returnMessage: remindMessage,
+                uuid: uuid,
+                messageLink: message.url,
+            });
+            this.addReminder(uuid, message.client);
+            return message.react('👍');
+            
+        } catch (error) {
+            console.error(error);
+        }
+
     },
     async addReminder(uuid, client) {
         reminder = await Reminders.findOne({ where: { uuid: uuid } });
