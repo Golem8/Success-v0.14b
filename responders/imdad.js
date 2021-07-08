@@ -13,14 +13,14 @@ module.exports = {
         const scan = niceMessage.includes(" i'm ");
         if ( scan ){
             const word = niceMessage.slice(niceMessage.indexOf(" i'm ") + " i'm ".length);
-            message.reply(`Hi<SPACE>${word}, I'm dad!`)
+            message.reply(`Hi ${word}, I'm dad!`)
         }
 
         //checks for im
         const scan2 = niceMessage.includes(" im ");
         if ( scan2 ){
             const word = niceMessage.slice(niceMessage.indexOf(" im ") + " im ".length);
-            message.reply(`Hi<SPACE>${word}, I'm dad!`)
+            message.reply(`Hi ${word}, I'm dad!`)
         }
 	},
 };
