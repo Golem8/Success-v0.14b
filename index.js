@@ -48,6 +48,15 @@ client.once('ready', () => {
   checkReminders();
 });
 
+client.on('presenceUpdate', (oldMember, newMember) => {
+  newMember.activities.forEach( activity => {
+    if(activity.name == 'EVE Online'){
+      channel = client.channels.cache.get(process.env.EMERGENCY_CHANNEL);
+      channel.send(`WARNING: <@${newMember.userID}> is playing eve online. The relevant authorities have been alerted.`);
+    }
+  });
+});
+
 client.on('message', message => {
   // bots cant send commands
   if (message.author.bot) return;
