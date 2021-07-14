@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 module.exports = {
     name: 'remind',
     description: 'reminds the user of whatever they asked whenever they asked to be reminded',
-    guildOnly: true,
+    guildOnly: false,
     aliases: [],
     cooldown: 0,
     argsRequired: true,
