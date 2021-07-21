@@ -26,7 +26,7 @@ module.exports = {
         //checks for i'm
         var scan = niceMessage.includes(" i'm");
         if ( scan ){
-            const word = niceMessage.slice(niceMessage.indexOf(" i'm") + " i'm".length);
+            const word = niceMessage.slice(niceMessage.indexOf(" i'm ") + " i'm ".length);
             if (word != '')
                 message.reply(`Hi ${word.trim()}, I'm dad!`)
         }
@@ -34,7 +34,7 @@ module.exports = {
         //checks for im
         scan = niceMessage.includes(" im");
         if ( scan ){
-            const word = niceMessage.slice(niceMessage.indexOf(" im") + " im".length);
+            const word = niceMessage.slice(niceMessage.indexOf(" im ") + " im ".length);
             if (word != '')
                 message.reply(`Hi ${word.trim()}, I'm dad!`)
         }
