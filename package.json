@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Golem8/Success-v0.14b#readme",
   "dependencies": {
+    "@discordjs/opus": "^0.5.3",
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
     "nodemon": "^2.0.7",
