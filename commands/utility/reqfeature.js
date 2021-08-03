@@ -17,6 +17,7 @@ module.exports = {
 
         message.client.users.fetch(process.env.FEATURE_REQ_SNOWFLAKE).then(response => response.send(res))
             .catch(error => console.error(error));
+		message.react('👍');
 
 	},
 };
