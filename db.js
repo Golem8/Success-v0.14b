@@ -9,11 +9,13 @@ const sequelize = new Sequelize({
 const Pingwords = sequelize.define('pingwords', {
 	username: {
 		type: Sequelize.STRING,
-		unique: true,
 	},
 	strings: {
 		type: Sequelize.TEXT,
 		defaultValue: '[]'
+	},
+	server: {
+		type: Sequelize.TEXT,
 	},
 });
 

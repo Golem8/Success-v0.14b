@@ -31,7 +31,10 @@ module.exports = {
 
             //update the array and db and respond to user
             currentList.push(pingstring)
-            await pingdb.update({ strings: JSON.stringify(currentList) }, { where: { username: message.author.id } });
+            await pingdb.update({ strings: JSON.stringify(currentList) }, {where: { 
+                username: message.author.id,
+                server: message.guild.id
+            } });
             message.reply(`Here is your updated pinglist: ${JSON.stringify(currentList)}`)
 
         } else if (utility === 'remove'){
@@ -58,7 +61,10 @@ module.exports = {
             }
 
             //update db and respond to the user
-            await pingdb.update({ strings: JSON.stringify(currentList) }, { where: { username: message.author.id } });
+            await pingdb.update({ strings: JSON.stringify(currentList) }, {where: { 
+                username: message.author.id,
+                server: message.guild.id
+            } });
             message.reply(`Here is your updated pinglist: ${JSON.stringify(currentList)}`)
 
 
@@ -69,41 +75,51 @@ module.exports = {
             //make list if they dont have one yet
             await this.createList(message);
             //set it to empty
-            const affectedRows = await pingdb.update({ strings: JSON.stringify([]) }, { where: { username: message.author.id } });
+            const affectedRows = await pingdb.update({ strings: JSON.stringify([]) }, { where: { 
+                username: message.author.id,
+                server: message.guild.id
+            } });
             //if changes were made
             if (affectedRows > 0) {
                 return message.reply("Your pingwords list has been reset");
             }
             return console.log(`ERROR: Unable to find db entry for user ${message.author.id}, utility = removeall`);
             
-        }else {
+        } else {
             return message.reply(`Please follow: !${this.usage}`)
         }
 	},
 
     //creates a new db entry if it does not exist yet
     async createList(message){
-        let sender = message.author.id;
-        try {
-            
-            const newUser = await pingdb.create({
-                username: sender,
-                strings: JSON.stringify([]),
-            });
-            console.log('Making new db entry for user ' + sender);
-        }
-        catch (e) {
-            if (e.name === 'SequelizeUniqueConstraintError') {
-                return console.log('User already in db');
+        const dbEntry = await pingdb.findOne({ where: { 
+            username: message.author.id,
+            server: message.guild.id
+        } });
+
+        if (dbEntry == null){
+            try {
+                
+                const newUser = await pingdb.create({
+                    username: message.author.id,
+                    strings: JSON.stringify([]),
+                    server: message.guild.id
+                });
+                console.log('Making new db entry for user ' + message.author.id);
             }
-            return console.log('Error creating tag');
-        }  
+            catch (e) {
+                return console.log('Error creating tag', e);
+            } 
+        }
     },
 
     async getCurrentList(message){
         //creates a db entry if they do not have one
         await this.createList(message);
-        const dbEntry = await pingdb.findOne({ where: { username: message.author.id } });
+        const dbEntry = await pingdb.findOne({ where: { 
+            username: message.author.id,
+            server: message.guild.id
+        } });
         return dbEntry.get('strings');
     } 
 };

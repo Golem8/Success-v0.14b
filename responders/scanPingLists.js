@@ -9,23 +9,28 @@ module.exports = {
 
     async execute(message){
 
-        const list = await pingdb.findAll({ attributes: ['username'] });
-      
+        let list = await pingdb.findAll({ attributes: ['username'] });
         if (list == undefined) return;
       
-        const users = list.map(t => t.username);
-      
+        let users = list.map(t => t.username);
         
+        // only loop through once for each user when a message is sent. We dont want duplicate
+        // usernames, even if a user has multiple pingword lists for multiple servers
+        // it will scan all their pingwords in the server in which the message was sent.
+        users = [...new Set(users)];
+
         //looping through each user
         users.forEach(async userSnowflake => {
-      
-          const dbEntry = await pingdb.findOne({ where: { username: userSnowflake } });
-      
+          const dbEntry = await pingdb.findOne({ where: { 
+            username: message.author.id,
+            server: message.guild.id
+          } });
+          
           if (dbEntry == undefined) return;
       
           const pingStringsArr = JSON.parse(dbEntry.get('strings'));
       
-      
+          
           pingStringsArr.forEach(async string => {
             //now looping through each string for the user
             if (message.content.toLowerCase().includes(string.toLowerCase())){
