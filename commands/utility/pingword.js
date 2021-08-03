@@ -4,8 +4,6 @@ module.exports = {
 	name: 'pingword',
 	description: 'sets, removes, or lists the pingwords that a user has set',
 	guildOnly: true,
-	aliases: ['pingstring'],
-	cooldown: 60,
     argsRequired: true,
     usage: 'pingword <add/remove/list/removeall> <pingword>',
 

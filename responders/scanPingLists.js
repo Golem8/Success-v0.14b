@@ -5,8 +5,6 @@ module.exports = {
 	name: 'scanPingLists',
 	description: 'notfies users when their pingwords are used',
 	guildOnly: false,
-	aliases: [],
-	cooldown: 0,
 	argsRequired: false,
 
     async execute(message){

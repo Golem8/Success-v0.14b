@@ -2,8 +2,6 @@ module.exports = {
 	name: 'imdad',
 	description: 'When a user says I\'m _, the bot replies "hi _, I\'m dad"',
 	guildOnly: false,
-	aliases: [],
-	cooldown: 0,
 	argsRequired: false,
 
 	async execute(message) {

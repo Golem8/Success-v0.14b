@@ -2,8 +2,6 @@ module.exports = {
 	name: 'pfpreset',
 	description: 'resets the bot\'s pfp to default',
 	guildOnly: true,
-	aliases: ['avatarreset'],
-	cooldown: 5,
 	argsRequired: false,
 
 	execute(message, args) {

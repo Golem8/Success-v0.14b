@@ -5,8 +5,6 @@ module.exports = {
     name: 'remind',
     description: 'reminds the user of whatever they asked whenever they asked to be reminded',
     guildOnly: false,
-    aliases: [],
-    cooldown: 0,
     argsRequired: true,
     usage: "remind <timeString> <message>",
 

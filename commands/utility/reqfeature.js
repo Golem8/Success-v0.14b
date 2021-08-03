@@ -5,8 +5,6 @@ module.exports = {
 	name: 'reqfeature',
 	description: 'requests a feature to be added to the bot',
 	guildOnly: true,
-	aliases: ['requestfeature','featurerequest'],
-	cooldown: 60,
 	argsRequired: false,
 
 	execute(message, args) {

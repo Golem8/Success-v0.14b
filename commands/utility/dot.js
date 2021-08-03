@@ -5,8 +5,6 @@ module.exports = {
 	description: 'adds a server-wide dot command that responds to messages',
 	usage: 'dot !<add/remove/list> <command> <response>',
 	guildOnly: true,
-	aliases: [],
-	cooldown: 5,
 	argsRequired: true,
 
     async execute(message, args) {

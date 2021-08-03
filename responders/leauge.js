@@ -2,8 +2,6 @@ module.exports = {
 	name: 'league',
 	description: 'sends the league image on lol',
 	guildOnly: false,
-	aliases: [],
-	cooldown: 0,
 	argsRequired: false,
 
 	 execute(message) {

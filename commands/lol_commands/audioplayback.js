@@ -2,8 +2,6 @@ module.exports = {
 	name: 'painmode',
 	description: 'Plays back whatever you say but with a delay',
 	guildOnly: true,
-	aliases: [''],
-	cooldown: 5,
 	argsRequired: false,
 
 	async execute(message, args) {
