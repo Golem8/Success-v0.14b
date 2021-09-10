@@ -19,7 +19,7 @@ module.exports = {
         scan = niceMessage.includes("im ");
         if ( scan ){
             const word = niceMessage.slice(niceMessage.indexOf(" im ") + " im ".length);
-            if (word != '')
+            if (word != '' && (niceMessage.indexOf(" im ") == 0 || niceMessage[niceMessage.indexOf(" im ") - 1] == ' '))
                 message.reply(`Hi ${word.trim()}, I'm dad!`)
         }
 	},
