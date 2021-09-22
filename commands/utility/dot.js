@@ -3,7 +3,7 @@ const DotCommands = require('../../db').DotCommands;
 module.exports = {
 	name: 'dot',
 	description: 'adds a server-wide dot command that responds to messages',
-	usage: 'dot !<add/remove/list> <command> <response>',
+	usage: 'dot !<add/remove/list/spam> <command> <response>',
 	guildOnly: true,
 	argsRequired: true,
 
