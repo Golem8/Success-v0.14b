@@ -60,7 +60,15 @@ module.exports = {
             });
             message.reply(`This server has the folling dot commands:${list}`)
             
-        }else {
+        } else if (utility === 'spam'){
+            const cmds = await DotCommands.findAll({ where: { serverid: message.guild.id } });
+            if (cmds == undefined) return;
+            cmds.forEach(cmd => {
+                message.channel.send(cmd.get('cmdoutput'));
+            });
+            
+        }
+        else {
             return message.reply(`Please follow: !${this.usage}`)
         }
 	},
