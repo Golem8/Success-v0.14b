@@ -12,7 +12,7 @@ module.exports = {
         
         //looping through each command
         cmds.forEach(cmd => {
-            if (message.content === (cmd.get('dotname'))){
+            if (message.content.includes((cmd.get('dotname')))){
                 message.channel.send(cmd.get('cmdoutput'));
             }
         });
