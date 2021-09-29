@@ -64,9 +64,13 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 
 client.on('message', async message => {
   const num_entries = await db.MessageLinks.count( { where: { serverid: message.guild.id }});
-  
+  var hard_coded_inc = 0;
+  if(message.guild.id == "738121767452672041"){
+    hard_coded_inc = 32798;
+  }
+
   if (num_entries % 1000 == 0){
-    message.reply(`Congrats, you just sent message ${num_entries} since the bot started caring!`);
+    message.reply(`Congrats, you just sent message ${num_entries + hard_coded_inc} since the bot started caring!`);
   }
 
   await db.MessageLinks.create({
