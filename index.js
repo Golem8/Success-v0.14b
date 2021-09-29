@@ -57,6 +57,11 @@ client.on('presenceUpdate', (oldMember, newMember) => {
   });
 });
 
+// checks for
+client.on('messageUpdate', (oldMessage, newMessage) => {
+  newMessage.channel.send(`<@!${newMessage.guild.ownerID}>, your treason has not gone unnoticed.`);
+})
+
 client.on('message', message => {
   // bots cant send commands
   if (message.author.bot) return;
