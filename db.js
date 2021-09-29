@@ -34,8 +34,15 @@ const DotCommands = sequelize.define('dotcmds', {
 	cmdoutput: Sequelize.STRING,
 });
 
+const MessageLinks = sequelize.define('messagelinks', {
+	index: Sequelize.INTEGER,
+	serverid: Sequelize.STRING,
+	messageLink: Sequelize.STRING,
+});
+
 module.exports = {
     Pingwords,
     Reminders,
 	DotCommands,
+	MessageLinks,
 };

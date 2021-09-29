@@ -20,7 +20,6 @@ for (const folder of commandFolders) {
   const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
   for (const file of commandFiles) {
     const command = require(`./commands/${folder}/${file}`);
-
     client.commands.set(command.name, command);
   }
 }
@@ -41,6 +40,7 @@ client.once('ready', () => {
   db.Pingwords.sync();
   db.Reminders.sync();
   db.DotCommands.sync();
+  db.MessageLinks.sync();
   console.log(`Logged in as ${client.user.tag} on ${Date()}`);
   client.user.setActivity("EVE Online");
 
@@ -59,11 +59,22 @@ client.on('presenceUpdate', (oldMember, newMember) => {
 
 // checks for
 client.on('messageUpdate', (oldMessage, newMessage) => {
-  console.log(newMessage);
   newMessage.channel.send(`<@!${newMessage.author.id}>, your treason has not gone unnoticed.`);
 })
 
-client.on('message', message => {
+client.on('message', async message => {
+  const num_entries = await db.MessageLinks.count( { where: { serverid: message.guild.id }});
+  
+  if (num_entries % 1000 == 0){
+    message.reply(`Congrats, you just sent message ${num_entries} since the bot started caring!`);
+  }
+
+  await db.MessageLinks.create({
+    index: num_entries,
+    serverid: message.guild.id,
+	  messageLink: message.url,
+});
+
   // bots cant send commands
   if (message.author.bot) return;
 
@@ -82,11 +93,10 @@ client.on('message', message => {
 
   //regex to split on spaces
   const args = message.content.slice(prefix.length).trim().split(/ +/);
-  const commandName = args.shift().toLowerCase();
+  const commandName = args.shift().toLowerCase().split('(')[0]; //remove anything after a ( from command name for arbitrary args
 
   const commandObj = client.commands.get(commandName);
   if (commandObj === undefined) return;
-
   //enforce guild only commands
   if (commandObj.guildOnly && message.channel.type !== 'text') {
     return message.reply('I can\'t execute that command inside DMs!');
