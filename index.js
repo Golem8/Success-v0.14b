@@ -70,7 +70,7 @@ client.on('message', async message => {
   }
 
   if (num_entries % 1000 == 0){
-    message.reply(`Congrats, you just sent message ${num_entries + hard_coded_inc} since the bot started caring!`);
+    message.reply(`Congrats, you just sent message ${num_entries + hard_coded_inc}!`);
   }
 
   await db.MessageLinks.create({
