@@ -8,8 +8,8 @@ module.exports = {
         const niceMessage = message.content.toLowerCase();
 	let triggers = ["im", "i'm", "i’m", "i am"]
 	
-	triggers.forEach(check(element) {
-		if (niceMessage.includes(element){
+	triggers.forEach(function(element) {
+		if (niceMessage.includes(element)){
         		const word = niceMessage.slice(niceMessage.indexOf(" " + element + " ") + (" " + element + " ").length);
         		if (word != '' && (niceMessage.indexOf(element + " ") == 0 || niceMessage[niceMessage.indexOf(element + " ") - 1] == ' '))
                 	message.reply(`Hi ${word.trim()}, I'm dad!`)
