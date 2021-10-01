@@ -6,7 +6,16 @@ module.exports = {
 
 	async execute(message) {
         const niceMessage = message.content.toLowerCase();
-
+	let triggers = ["im", "i'm", "i’m", "i am"]
+	
+	triggers.forEach(check(element) {
+		if (niceMessage.includes(element){
+        		const word = niceMessage.slice(niceMessage.indexOf(" " + element + " ") + (" " + element + " ").length);
+        		if (word != '' && (niceMessage.indexOf(element + " ") == 0 || niceMessage[niceMessage.indexOf(element + " ") - 1] == ' '))
+                	message.reply(`Hi ${word.trim()}, I'm dad!`)
+        	}
+	})
+	/*
         //checks for i'm
         var scan = niceMessage.includes("i'm ");
         if ( scan ){
@@ -22,5 +31,7 @@ module.exports = {
             if (word != '' && (niceMessage.indexOf("im ") == 0 || niceMessage[niceMessage.indexOf("im ") - 1] == ' '))
                 message.reply(`Hi ${word.trim()}, I'm dad!`)
         }
+	*/
+
 	},
 };
