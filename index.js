@@ -69,7 +69,7 @@ client.on('message', async message => {
     hard_coded_inc = 32798;
   }
 
-  if (num_entries % 1000 == 0){
+  if (num_entries + hard_coded_inc % 1000 == 0){
     message.reply(`Congrats, you just sent message ${num_entries + hard_coded_inc}!`);
   }
 
