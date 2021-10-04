@@ -59,7 +59,13 @@ client.on('presenceUpdate', (oldMember, newMember) => {
 
 // checks for
 client.on('messageUpdate', (oldMessage, newMessage) => {
-  newMessage.channel.send(`<@!${newMessage.author.id}>, your treason has not gone unnoticed.`);
+	if (Math.random() <= 0.15){
+ 		if(Boolean(Math.round(Math.random()))){
+	  newMessage.channel.send(`<@!${newMessage.author.id}>, your treason has not gone unnoticed.`);
+    } else {
+      newMessage.channel.send(`<@!${newMessage.author.id}>, don't think I didn't see that.`);
+    }
+	}
 })
 
 client.on('message', async message => {
