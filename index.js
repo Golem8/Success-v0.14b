@@ -42,6 +42,10 @@ client.once('ready', () => {
   db.DotCommands.sync();
   db.MessageLinks.sync();
   console.log(`Logged in as ${client.user.tag} on ${Date()}`);
+
+  const channel = await client.channels.fetch(process.env.LOBBYID);
+  channel.send("I'm back, and the abstraction deepens");
+  
   client.user.setActivity("EVE Online");
 
   // load reminders on startup
