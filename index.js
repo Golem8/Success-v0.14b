@@ -43,7 +43,7 @@ client.once('ready',  async () => {
   db.MessageLinks.sync();
   console.log(`Logged in as ${client.user.tag} on ${Date()}`);
   const channel = await client.channels.fetch(process.env.LOBBYID);
-  channel.send("I'm back, and the abstraction deepens");
+  channel.send("I've returned, and the abstraction deepens");
 
   client.user.setActivity("EVE Online");
 
