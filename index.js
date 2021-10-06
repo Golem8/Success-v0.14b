@@ -59,12 +59,14 @@ client.on('presenceUpdate', (oldMember, newMember) => {
 
 // checks for
 client.on('messageUpdate', (oldMessage, newMessage) => {
-	if (Math.random() <= 0.15){
- 		if(Boolean(Math.round(Math.random()))){
-	  newMessage.channel.send(`<@!${newMessage.author.id}>, your treason has not gone unnoticed.`);
-    } else {
-      newMessage.channel.send(`<@!${newMessage.author.id}>, don't think I didn't see that.`);
-    }
+	if (Math.random() <= 0.5){
+    setTimeout(function(){ 
+      if(Boolean(Math.round(Math.random()))){
+        newMessage.channel.send(`<@!${newMessage.author.id}>, your treason has not gone unnoticed.`);
+        } else {
+          newMessage.channel.send(`<@!${newMessage.author.id}>, don't think I didn't see that.`);
+        }
+    }, Math.floor(Math.random() * 120000)); //random timeout from 0-120s
 	}
 })
 
