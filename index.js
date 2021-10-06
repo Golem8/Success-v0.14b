@@ -59,7 +59,7 @@ client.on('presenceUpdate', (oldMember, newMember) => {
 
 // checks for
 client.on('messageUpdate', (oldMessage, newMessage) => {
-	if (Math.random() <= 0.5){
+	if (Math.random() <= 0.99){
     setTimeout(function(){ 
       if(Boolean(Math.round(Math.random()))){
         newMessage.channel.send(`<@!${newMessage.author.id}>, your treason has not gone unnoticed.`);
