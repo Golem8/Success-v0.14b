@@ -16,5 +16,13 @@ module.exports = {
           exec("git pull", (error, stdout, stderr) => {
             console.log(`stdout (git pull): ${stdout}`);
           });
+
+          if(stdout == "Already up to date."){
+            message.reply("Already up to date");
+          }
+
+          if(stdout != "Already up to date."){
+            message.reply("Either that worked or git pull failed idk which");
+          }
 	},
 };
