@@ -12,6 +12,7 @@ module.exports = {
               message.reply("This command is guild restricted");
               return;
           }
+          message.reply("Attempting to restart bot");
           exec("git pull", (error, stdout, stderr) => {
             console.log(`stdout (git pull): ${stdout}`);
           });
@@ -19,5 +20,7 @@ module.exports = {
           exec("nodemon rs", (error, stdout, stderr) => {
             console.log(`stdout (nodemon rs): ${stdout}`);
           });
+
+          process.exit(0);
 	},
 };
