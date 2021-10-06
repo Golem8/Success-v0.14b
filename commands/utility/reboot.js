@@ -15,13 +15,7 @@ module.exports = {
           message.reply("Attempting to pull changes for bot");
           exec("git pull", (error, stdout, stderr) => {
             console.log(`stdout (git pull): ${stdout}`);
-            if(stdout == "Already up to date."){
-              message.reply("Already up to date");
-            }
-  
-            if(stdout != "Already up to date."){
-              message.reply("Either that worked or git pull failed idk which");
-            }
+            message.reply(`stdout (git pull): ${stdout}`);
           });
 
           
