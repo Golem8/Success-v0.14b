@@ -36,16 +36,15 @@ for (const file of messageScanners) {
 
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
-client.once('ready', () => {
+client.once('ready',  async () => {
   db.Pingwords.sync();
   db.Reminders.sync();
   db.DotCommands.sync();
   db.MessageLinks.sync();
   console.log(`Logged in as ${client.user.tag} on ${Date()}`);
-
   const channel = await client.channels.fetch(process.env.LOBBYID);
   channel.send("I'm back, and the abstraction deepens");
-  
+
   client.user.setActivity("EVE Online");
 
   // load reminders on startup
