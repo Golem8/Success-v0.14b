@@ -15,7 +15,7 @@ module.exports = {
           message.reply("Attempting to pull changes for bot");
           exec("git pull", (error, stdout, stderr) => {
             console.log(`stdout (git pull): ${stdout}`);
-            message.reply(`stdout (git pull): ${stdout}`);
+            message.reply(`stdout: ${stdout}`);
           });
 
           
