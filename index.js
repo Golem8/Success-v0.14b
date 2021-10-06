@@ -73,7 +73,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 client.on('message', async message => {
   const num_entries = await db.MessageLinks.count( { where: { serverid: message.guild.id }});
   var hard_coded_inc = 0;
-  if(message.guild.id == "738121767452672041"){
+  if(message.guild.id == process.env.GUILDID){
     hard_coded_inc = 32798;
   }
 
