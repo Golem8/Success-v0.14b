@@ -82,7 +82,7 @@ client.on('message', async message => {
   var messageContent = message.content
   var senderName = message.author.username
 
-  if (!message.channel.id == process.env.LOBBYID && message.guild.id == process.env.GUILDID){
+  if (message.channel.id != process.env.LOBBYID && message.guild.id == process.env.GUILDID){
     var res = []
     res.push(`Author: ${senderName}`)
     res.push(`messageContent: ${messageContent}`)
