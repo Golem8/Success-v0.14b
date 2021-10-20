@@ -7,7 +7,7 @@ module.exports = {
 	guildOnly: false,
 	argsRequired: true,
 
-	execute(message, args) {
+	async execute(message, args) {
         if(!message.author.id == process.env.FEATURE_REQ_SNOWFLAKE){
             return;
         }
