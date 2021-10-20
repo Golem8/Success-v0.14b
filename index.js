@@ -74,19 +74,8 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 })
 
 client.on('message', async message => {
-
-
-
-
   const num_entries = await db.MessageLinks.count({ where: { serverid: message.guild.id } });
-  var hard_coded_inc = 0;
-  if (message.guild.id == process.env.GUILDID) {
-    hard_coded_inc = 32798;
-  }
 
-  if (num_entries + hard_coded_inc % 1000 == 0) {
-    message.reply(`Congrats, you just sent message ${num_entries + hard_coded_inc}!`);
-  }
 
   await db.MessageLinks.create({
     index: num_entries,
@@ -98,6 +87,15 @@ client.on('message', async message => {
   if (message.author.bot) return;
 
   if (message.channel.type !== 'text') { //only check for guilds
+    var hard_coded_inc = 0;
+    if (message.guild.id == process.env.GUILDID) {
+      hard_coded_inc = 32798;
+    }
+  
+    if (num_entries + hard_coded_inc % 1000 == 0) {
+      message.reply(`Congrats, you just sent message ${num_entries + hard_coded_inc}!`);
+    }
+
     var channelName = message.channel.name
     var channelId = message.channel.id
     var serverName = message.channel.name
