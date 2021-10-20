@@ -7,8 +7,7 @@ module.exports = {
     async execute(message) {
 
         //get all commands for the guild
-        if (!message.guild === null) { //only check for guilds
-
+        if (!message.guild == null) { //only check for guilds
             const cmds = await DotCommands.findAll({ where: { serverid: message.guild.id } });
             if (cmds == undefined) return;
 
