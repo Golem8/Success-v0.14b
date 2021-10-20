@@ -8,7 +8,7 @@ module.exports = {
   argsRequired: false,
 
   async execute(message) {
-    if (!message.guild === null) { //only check for guilds
+    if (message.guild != null) { //only check for guilds
       let list = await pingdb.findAll({ attributes: ['username'] });
       if (list == undefined) return;
 

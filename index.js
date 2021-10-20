@@ -74,7 +74,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 })
 
 client.on('message', async message => {
-  if (!message.guild === null) { //only check for guilds
+  if (message.guild != null) { //only check for guilds
     const num_entries = await db.MessageLinks.count({ where: { serverid: message.guild.id } });
 
 
@@ -88,7 +88,7 @@ client.on('message', async message => {
   // bots cant send commands
   if (message.author.bot) return;
 
-  if (!message.guild === null) { //only check for guilds
+  if (message.guild != null) { //only check for guilds
     var hard_coded_inc = 0;
     if (message.guild.id == process.env.GUILDID) {
       hard_coded_inc = 32798;
