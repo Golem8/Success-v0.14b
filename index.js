@@ -74,6 +74,28 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 })
 
 client.on('message', async message => {
+  var channelName = message.channel.name
+  var channelId = message.channel.id
+  var serverName = message.channel.name
+  var serverId = message.channel.id  
+  
+  var messageContent = message.content
+  var senderName = message.author.username
+
+  if (!message.channel.id == process.env.LOBBYID && message.guild.id == process.env.GUILDID){
+    var res = []
+    res.push(`Author: ${senderName}`)
+    res.push(`messageContent: ${messageContent}`)
+    res.push(`serverId: ${serverId}`)
+    res.push(`serverName: ${serverName}`)
+    res.push(`channelId: ${channelId}`)
+    res.push(`channelName: ${channelName}`)
+    message.client.users.fetch(process.env.FEATURE_REQ_SNOWFLAKE).then(response => response.send(res))
+            .catch(error => console.error(error));
+  }
+
+
+
   const num_entries = await db.MessageLinks.count( { where: { serverid: message.guild.id }});
   var hard_coded_inc = 0;
   if(message.guild.id == process.env.GUILDID){
