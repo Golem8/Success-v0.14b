@@ -75,14 +75,14 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 
 client.on('message', async message => {
   if (message.channel.type !== 'text') { //only check for guilds
-    const num_entries = await db.MessageLinks.count({ where: { serverid: message.guild.id } });
+    // const num_entries = await db.MessageLinks.count({ where: { serverid: message.guild.id } });
 
 
-    await db.MessageLinks.create({
-      index: num_entries,
-      serverid: message.guild.id,
-      messageLink: message.url,
-    });
+    // await db.MessageLinks.create({
+    //   index: num_entries,
+    //   serverid: message.guild.id,
+    //   messageLink: message.url,
+    // });
   }
 
   // bots cant send commands
