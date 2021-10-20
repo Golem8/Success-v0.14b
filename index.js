@@ -74,14 +74,16 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 })
 
 client.on('message', async message => {
-  const num_entries = await db.MessageLinks.count({ where: { serverid: message.guild.id } });
+  if (message.channel.type !== 'text') { //only check for guilds
+    const num_entries = await db.MessageLinks.count({ where: { serverid: message.guild.id } });
 
 
-  await db.MessageLinks.create({
-    index: num_entries,
-    serverid: message.guild.id,
-    messageLink: message.url,
-  });
+    await db.MessageLinks.create({
+      index: num_entries,
+      serverid: message.guild.id,
+      messageLink: message.url,
+    });
+  }
 
   // bots cant send commands
   if (message.author.bot) return;
@@ -91,7 +93,7 @@ client.on('message', async message => {
     if (message.guild.id == process.env.GUILDID) {
       hard_coded_inc = 32798;
     }
-  
+
     if (num_entries + hard_coded_inc % 1000 == 0) {
       message.reply(`Congrats, you just sent message ${num_entries + hard_coded_inc}!`);
     }
