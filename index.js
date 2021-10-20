@@ -36,7 +36,7 @@ for (const file of messageScanners) {
 
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
-client.once('ready',  async () => {
+client.once('ready', async () => {
   db.Pingwords.sync();
   db.Reminders.sync();
   db.DotCommands.sync();
@@ -52,8 +52,8 @@ client.once('ready',  async () => {
 });
 
 client.on('presenceUpdate', (oldMember, newMember) => {
-  newMember.activities.forEach( activity => {
-    if(activity.name == 'EVE Online'){
+  newMember.activities.forEach(activity => {
+    if (activity.name == 'EVE Online') {
       channel = client.channels.cache.get(process.env.EMERGENCY_CHANNEL);
       channel.send(`WARNING: <@${newMember.userID}> is playing eve online. The relevant authorities have been alerted.`);
     }
@@ -62,60 +62,63 @@ client.on('presenceUpdate', (oldMember, newMember) => {
 
 // checks for
 client.on('messageUpdate', (oldMessage, newMessage) => {
-	if (Math.random() <= 0.03 && !newMessage.author.bot){
-    setTimeout(function(){ 
-      if(Boolean(Math.round(Math.random()))){
+  if (Math.random() <= 0.03 && !newMessage.author.bot) {
+    setTimeout(function () {
+      if (Boolean(Math.round(Math.random()))) {
         newMessage.channel.send(`<@!${newMessage.author.id}>, your treason has not gone unnoticed.`);
-        } else {
-          newMessage.channel.send(`<@!${newMessage.author.id}>, don't think I didn't see that.`);
-        }
+      } else {
+        newMessage.channel.send(`<@!${newMessage.author.id}>, don't think I didn't see that.`);
+      }
     }, Math.floor(Math.random() * 120000)); //random timeout from 0-120s
-	}
+  }
 })
 
 client.on('message', async message => {
-  
 
 
 
-  const num_entries = await db.MessageLinks.count( { where: { serverid: message.guild.id }});
+
+  const num_entries = await db.MessageLinks.count({ where: { serverid: message.guild.id } });
   var hard_coded_inc = 0;
-  if(message.guild.id == process.env.GUILDID){
+  if (message.guild.id == process.env.GUILDID) {
     hard_coded_inc = 32798;
   }
 
-  if (num_entries + hard_coded_inc % 1000 == 0){
+  if (num_entries + hard_coded_inc % 1000 == 0) {
     message.reply(`Congrats, you just sent message ${num_entries + hard_coded_inc}!`);
   }
 
   await db.MessageLinks.create({
     index: num_entries,
     serverid: message.guild.id,
-	  messageLink: message.url,
-});
+    messageLink: message.url,
+  });
 
   // bots cant send commands
   if (message.author.bot) return;
-  var channelName = message.channel.name
-  var channelId = message.channel.id
-  var serverName = message.channel.name
-  var serverId = message.channel.id  
-  
-  var messageContent = message.content
-  var senderName = message.author.username
 
-  if (message.channel.id != process.env.LOBBYID && message.guild.id == process.env.GUILDID){
-    var res = []
-    res.push(`Author: ${senderName}`)
-    res.push(`messageContent: ${messageContent}`)
-    res.push(`serverId: ${serverId}`)
-    res.push(`serverName: ${serverName}`)
-    res.push(`channelId: ${channelId}`)
-    res.push(`channelName: ${channelName}`)
-    res.push("   ")
-    message.client.users.fetch(process.env.FEATURE_REQ_SNOWFLAKE).then(response => response.send(res))
-            .catch(error => console.error(error));
+  if (message.channel.type !== 'text') { //only check for guilds
+    var channelName = message.channel.name
+    var channelId = message.channel.id
+    var serverName = message.channel.name
+    var serverId = message.channel.id
+
+    var messageContent = message.content
+    var senderName = message.author.username
+
+    if (message.channel.id != process.env.LOBBYID && message.guild.id == process.env.GUILDID) {
+      var res = []
+      res.push(`Author: ${senderName}`)
+      res.push(`messageContent: ${messageContent}`)
+      res.push(`serverId: ${serverId}`)
+      res.push(`serverName: ${serverName}`)
+      res.push(`channelId: ${channelId}`)
+      res.push(`channelName: ${channelName}`)
+      res.push("   ")
+      message.client.users.fetch(process.env.FEATURE_REQ_SNOWFLAKE).then(response => response.send(res))
+        .catch(error => console.error(error));
     }
+  }
 
   //loop through all responders.
   client.responders.forEach((value, key) => {
