@@ -13,7 +13,7 @@ module.exports = {
         }
 
         console.log("attempt to execute push")
-        const channel = await client.channels.fetch(process.env.SECRETID);
+        const channel = await message.client.channels.fetch(process.env.SECRETID);
         channel.send(args.join(' '))
 	},
 };
