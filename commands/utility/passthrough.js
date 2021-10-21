@@ -29,6 +29,7 @@ module.exports = {
                         channelId: channelId
                     }
                 });
+                return message.react('👍')
             }
             else if (args[2] == 'off') {
                 const channelIds = await this.createTree(message, false);
@@ -41,6 +42,7 @@ module.exports = {
                         channelId: channelId
                     }
                 });
+                return message.react('👍')
 
             }
             else {
@@ -73,7 +75,7 @@ module.exports = {
             args.shift() //remove channel num arg
 
             grabNum = args[0]
-
+            
             if (grabNum == null || !Number.isInteger(parseInt(grabNum)) || grabNum > 100 || grabNum <= 0)
                 return message.reply("Please enter valid number. <read> <channelNum> <number of messages to fetch>");
 
