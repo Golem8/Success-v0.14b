@@ -4,7 +4,6 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const prefix = '!';
 const remindjs = require('./commands/utility/remind');
-const { Reminders } = require('./db');
 
 db = require('./db');
 
@@ -41,6 +40,8 @@ client.once('ready', async () => {
   db.Reminders.sync();
   db.DotCommands.sync();
   db.MessageLinks.sync();
+  db.ChannelsWithNotifs.sync();
+
   console.log(`Logged in as ${client.user.tag} on ${Date()}`);
   const channel = await client.channels.fetch(process.env.LOBBYID);
   channel.send("I've returned, and the abstraction deepens");
@@ -96,29 +97,6 @@ client.on('message', async message => {
   // bots cant send commands
   if (message.author.bot) return;
 
-  if (message.guild != null) { //only check for guild
-    var channelName = message.channel.name
-    var channelId = message.channel.id
-    var serverName = message.channel.name
-    var serverId = message.channel.id
-
-    var messageContent = message.content
-    var senderName = message.author.username
-
-    if (message.channel.id != process.env.LOBBYID && message.guild.id == process.env.GUILDID) {
-      var res = []
-      res.push(`Author: ${senderName}`)
-      res.push(`messageContent: ${messageContent}`)
-      res.push(`serverId: ${serverId}`)
-      res.push(`serverName: ${serverName}`)
-      res.push(`channelId: ${channelId}`)
-      res.push(`channelName: ${channelName}`)
-      res.push("   ")
-      message.client.users.fetch(process.env.FEATURE_REQ_SNOWFLAKE).then(response => response.send(res))
-        .catch(error => console.error(error));
-    }
-  }
-
   //loop through all responders.
   client.responders.forEach((value, key) => {
     const responder = client.responders.get(key);
@@ -157,7 +135,7 @@ client.on('message', async message => {
 
 // initiate reminders into memory from the db on startup
 async function checkReminders() {
-  const remindersList = await Reminders.findAll();
+  const remindersList = await db.Reminders.findAll();
   remindersList.forEach(async reminder => {
     if (reminder == undefined) return;
     remindjs.addReminder(reminder.uuid, client);
