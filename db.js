@@ -40,9 +40,15 @@ const MessageLinks = sequelize.define('messagelinks', {
 	messageLink: Sequelize.STRING,
 });
 
+const ChannelsWithNotifs = sequelize.define('notifs', {
+	channelId: Sequelize.STRING,
+	notifsEnabled: Sequelize.BOOLEAN,
+});
+
 module.exports = {
     Pingwords,
     Reminders,
 	DotCommands,
 	MessageLinks,
+	ChannelsWithNotifs
 };
