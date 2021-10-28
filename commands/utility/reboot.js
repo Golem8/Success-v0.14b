@@ -13,9 +13,15 @@ module.exports = {
               return;
           }
           if (args[0] == 'force'){
+            exec("rm index.js", (error, stdout, stderr) => {
+              console.log(`stdout (git pull): ${stdout}`);
+            });
             exec("git reset --hard", (error, stdout, stderr) => {
               console.log(`stdout (git pull): ${stdout}`);
               message.reply(`attempted to git reset --hard`);
+            });
+            exec("git pull", (error, stdout, stderr) => {
+              console.log(`stdout (git pull): ${stdout}`);
             });
           }
 
