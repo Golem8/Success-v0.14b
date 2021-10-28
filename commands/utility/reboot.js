@@ -13,23 +13,22 @@ module.exports = {
               return;
           }
           if (args[0] == 'force'){
+            message.reply(`Attempting a hard reset`);
             exec("rm index.js", (error, stdout, stderr) => {
               console.log(`stdout (git pull): ${stdout}`);
             });
             exec("git reset --hard", (error, stdout, stderr) => {
               console.log(`stdout (git pull): ${stdout}`);
-              message.reply(`attempted to git reset --hard`);
             });
             exec("git pull", (error, stdout, stderr) => {
               console.log(`stdout (git pull): ${stdout}`);
             });
+          }else{
+            exec("git pull", (error, stdout, stderr) => {
+              console.log(`stdout (git pull): ${stdout}`);
+              message.reply(`Ran Git pull`);
+            });
           }
-
-          exec("git pull", (error, stdout, stderr) => {
-            console.log(`stdout (git pull): ${stdout}`);
-            message.reply(`attempted to git pull`);
-          });
-
-          
+         
 	},
 };
