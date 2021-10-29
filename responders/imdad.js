@@ -18,6 +18,7 @@ module.exports = {
 				if (word != '' && (niceMessage.indexOf(element + " ") == 0 || niceMessage[niceMessage.indexOf(element + " ") - 1] == ' ')) {
 					message.reply(`Hi ${word.trim()}, I'm dad!`)
 					lastPung = message.author.id;
+					break;
 				}
 			}
 		})
