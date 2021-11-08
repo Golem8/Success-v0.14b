@@ -1,3 +1,2 @@
 # Success v0.14b
-What an epic name for a discord bot.
-This bot probably does cool stuff by now.
+Success v.014b is a discord bot providing quality of life features (such as slack-style pingwords and reminders) and fun features such as stealing profile pictures and running an easy-access meme database.
