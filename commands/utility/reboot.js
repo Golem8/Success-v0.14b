@@ -15,13 +15,16 @@ module.exports = {
           if (args[0] == 'force'){
             message.reply(`Attempting a hard reset`);
             exec("rm index.js", (error, stdout, stderr) => {
-              console.log(`stdout (git pull): ${stdout}`);
+              console.log(`stdout (rm index.js): ${stdout}`);
             });
             exec("git reset --hard", (error, stdout, stderr) => {
-              console.log(`stdout (git pull): ${stdout}`);
+              console.log(`stdout (git reset --hard): ${stdout}`);
             });
             exec("git pull", (error, stdout, stderr) => {
               console.log(`stdout (git pull): ${stdout}`);
+            });
+            exec("npm ci", (error, stdout, stderr) => {
+              console.log(`stdout ("npm ci): ${stdout}`);
             });
           }else{
             exec("git pull", (error, stdout, stderr) => {
