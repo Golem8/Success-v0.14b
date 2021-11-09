@@ -23,9 +23,6 @@ module.exports = {
             exec("git pull", (error, stdout, stderr) => {
               console.log(`stdout (git pull): ${stdout}`);
             });
-            exec("npm ci", (error, stdout, stderr) => {
-              console.log(`stdout ("npm ci): ${stdout}`);
-            });
           }else{
             exec("git pull", (error, stdout, stderr) => {
               console.log(`stdout (git pull): ${stdout}`);
