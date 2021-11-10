@@ -7,6 +7,7 @@ const remindjs = require('./commands/utility/remind');
 
 db = require('./db');
 
+justJoined = false;
 
 // create a new Discord client
 const client = new Discord.Client();
@@ -141,6 +142,31 @@ async function checkReminders() {
     remindjs.addReminder(reminder.uuid, client);
   });
 }
+
+//voice join/leave detection code taken from
+//https://www.reddit.com/r/discordapp/comments/6p85uf/discordjs_any_way_to_detect_when_someone_enter_a/
+client.on('voiceStateUpdate', async (oldMember, newMember) => {
+  let newUserChannel = newMember.channel
+  let oldUserChannel = oldMember.channel
+  let snowflake = newMember.member.id
+
+  if (oldUserChannel == undefined && newUserChannel !== undefined && justJoined == false) {
+    setTimeout(() => { justJoined = false; }, 300);
+    justJoined = true;
+    // User Joins a voice channel
+
+    setTimeout(async () => {
+      const connection = await newMember.member.voice.channel.join();
+      const dispatcher = connection.play('./eee.mp3');
+      dispatcher.on("finish", finish => { newMember.member.voice.channel.leave() });
+    }, Math.floor((Math.random() + 0.5) * 30000));
+    console.log(Math.floor((Math.random() + 0.5) * 30000))
+  } else if (newUserChannel === undefined) {
+
+    // User leaves a voice channel
+
+  }
+})
 
 // login to Discord with bot token
 client.login(process.env.BOT_TOKEN);
