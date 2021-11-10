@@ -154,13 +154,14 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
     setTimeout(() => { justJoined = false; }, 300);
     justJoined = true;
     // User Joins a voice channel
-
+    let max = 15*60*1000
+    let min = 5*60*1000
     setTimeout(async () => {
+      
       const connection = await newMember.member.voice.channel.join();
       const dispatcher = connection.play('./eee.mp3');
       dispatcher.on("finish", finish => { newMember.member.voice.channel.leave() });
-    }, Math.floor((Math.random() + 0.5) * 30000));
-    console.log(Math.floor((Math.random() + 0.5) * 30000))
+    }, Math.floor(Math.random() * (max - min + 1) + min));
   } else if (newUserChannel === undefined) {
 
     // User leaves a voice channel
