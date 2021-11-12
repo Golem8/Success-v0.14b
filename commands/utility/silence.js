@@ -56,7 +56,7 @@ module.exports = {
             reason = 'no reason given';
         }
         endTime = Date.now() + (604800000 * weeks) + (86400000 * days) + (3600000 * hours) + (60000 * minutes) + (1000 * seconds);
-        if(endTime > 2147000000){
+        if((604800000 * weeks) + (86400000 * days) + (3600000 * hours) + (60000 * minutes) + (1000 * seconds) >= 2147483647){
             return message.reply('u overflowed the int');
         }
         uuid = uuidv4();
