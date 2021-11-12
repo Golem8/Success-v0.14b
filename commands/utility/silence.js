@@ -56,6 +56,9 @@ module.exports = {
             reason = 'no reason given';
         }
         endTime = Date.now() + (604800000 * weeks) + (86400000 * days) + (3600000 * hours) + (60000 * minutes) + (1000 * seconds);
+        if(endTime > 2147000000){
+            return message.reply('u overflowed the int');
+        }
         uuid = uuidv4();
         try {
             existing = await Mutations.findOne({ where: { muteeSnowflake: user.user.id } });
@@ -87,8 +90,7 @@ module.exports = {
             mutation = await Mutations.findOne({ where: { uuid: uuid } });
             const rowCount = await Mutations.destroy({ where: { uuid: mutation.uuid } });
             if (!rowCount) console.error('No mutation found to delete');
-            if ((mutation.endTime) - Date.now() > 0) {
-
+            if ((mutation.endTime) - Date.now() > 1500) {
                 await Mutations.create({
                     muteeSnowflake: mutation.muteeSnowflake,
                     endTime: mutation.endTime,
