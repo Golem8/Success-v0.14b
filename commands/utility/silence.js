@@ -47,17 +47,19 @@ module.exports = {
             seconds = timeString.slice(0, timeString.indexOf('s'));
             timeString = timeString.slice(timeString.indexOf('s') + 1);
         }
-        if (timeString != '') return message.reply('Malformed time string');
-        args.shift();
-        reason = args.join(' ');
+        if (timeString != '') endTime = Date.now()
+        else {
+            args.shift();
+            reason = args.join(' ');
 
-        //ensure the correct args are being used
-        if (reason == undefined || reason == '') {
-            reason = 'no reason given';
-        }
-        endTime = Date.now() + (604800000 * weeks) + (86400000 * days) + (3600000 * hours) + (60000 * minutes) + (1000 * seconds);
-        if((604800000 * weeks) + (86400000 * days) + (3600000 * hours) + (60000 * minutes) + (1000 * seconds) >= 2147483647){
-            return message.reply('u overflowed the int');
+            //ensure the correct args are being used
+            if (reason == undefined || reason == '') {
+                reason = 'no reason given';
+            }
+            endTime = Date.now() + (604800000 * weeks) + (86400000 * days) + (3600000 * hours) + (60000 * minutes) + (1000 * seconds);
+            if ((604800000 * weeks) + (86400000 * days) + (3600000 * hours) + (60000 * minutes) + (1000 * seconds) >= 2147483647) {
+                return message.reply('u overflowed the int');
+            }
         }
         uuid = uuidv4();
         try {
