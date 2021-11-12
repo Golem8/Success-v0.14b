@@ -24,11 +24,13 @@ module.exports = {
         let hours = 0;
         let minutes = 0;
         let seconds = 0;
+        let endTime = 0;
         if(user == undefined){
             return message.reply("Please ping someone to mute")
         }
         if (timeString == undefined) {
             timeString = 'not empty'
+            endTime = Date.now()
         } else {
             if (timeString.includes('w')) {
                 weeks = timeString.slice(0, timeString.indexOf('w'));
@@ -50,9 +52,6 @@ module.exports = {
                 seconds = timeString.slice(0, timeString.indexOf('s'));
                 timeString = timeString.slice(timeString.indexOf('s') + 1);
             }
-        }
-        if (timeString != '') endTime = Date.now()
-        else {
             args.shift();
             reason = args.join(' ');
 
@@ -65,6 +64,7 @@ module.exports = {
                 return message.reply('u overflowed the int');
             }
         }
+            
         uuid = uuidv4();
         try {
             existing = await Mutations.findOne({ where: { muteeSnowflake: user.user.id } });
