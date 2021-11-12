@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const prefix = '!';
 const remindjs = require('./commands/utility/remind');
+const mutejs = require('./commands/utility/silence');
 
 db = require('./db');
 
@@ -42,6 +43,7 @@ client.once('ready', async () => {
   db.DotCommands.sync();
   db.MessageLinks.sync();
   db.ChannelsWithNotifs.sync();
+  db.Mutations.sync();
 
   console.log(`Logged in as ${client.user.tag} on ${Date()}`);
   const channel = await client.channels.fetch(process.env.LOBBYID);
@@ -51,6 +53,9 @@ client.once('ready', async () => {
 
   // load reminders on startup
   checkReminders();
+
+  //unmute if necessary after reboot
+  checkMutations()
 });
 
 client.on('presenceUpdate', (oldMember, newMember) => {
@@ -140,6 +145,15 @@ async function checkReminders() {
   remindersList.forEach(async reminder => {
     if (reminder == undefined) return;
     remindjs.addReminder(reminder.uuid, client);
+  });
+}
+
+// initiate mutations into memory from the db on startup
+async function checkMutations() {
+  const mutationsList = await db.Mutations.findAll();
+  mutationsList.forEach(async mutation => {
+    if (mutation == undefined) return;
+      mutejs.addMutation(mutation.uuid, client);
   });
 }
 

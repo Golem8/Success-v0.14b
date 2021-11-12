@@ -45,10 +45,19 @@ const ChannelsWithNotifs = sequelize.define('notifs', {
 	notifsEnabled: Sequelize.BOOLEAN,
 });
 
+const Mutations = sequelize.define('mutations', {
+	muteeSnowflake: Sequelize.STRING,
+	endTime: Sequelize.DATE,
+	reason: Sequelize.TEXT,
+	uuid: Sequelize.TEXT,
+	guildSnowflake: Sequelize.TEXT,
+});
+
 module.exports = {
     Pingwords,
     Reminders,
 	DotCommands,
 	MessageLinks,
-	ChannelsWithNotifs
+	ChannelsWithNotifs,
+	Mutations,
 };
