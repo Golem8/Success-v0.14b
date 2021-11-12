@@ -24,28 +24,32 @@ module.exports = {
         let hours = 0;
         let minutes = 0;
         let seconds = 0;
-        if (timeString == undefined || user == undefined) {
-            return message.reply(`Please follow: !${this.usage}`)
+        if(user == undefined){
+            return message.reply("Please ping someone to mute")
         }
-        if (timeString.includes('w')) {
-            weeks = timeString.slice(0, timeString.indexOf('w'));
-            timeString = timeString.slice(timeString.indexOf('w') + 1);
-        }
-        if (timeString.includes('d')) {
-            days = timeString.slice(0, timeString.indexOf('d'));
-            timeString = timeString.slice(timeString.indexOf('d') + 1);
-        }
-        if (timeString.includes('h')) {
-            hours = timeString.slice(0, timeString.indexOf('h'));
-            timeString = timeString.slice(timeString.indexOf('h') + 1);
-        }
-        if (timeString.includes('m')) {
-            minutes = timeString.slice(0, timeString.indexOf('m'));
-            timeString = timeString.slice(timeString.indexOf('m') + 1);
-        }
-        if (timeString.includes('s')) {
-            seconds = timeString.slice(0, timeString.indexOf('s'));
-            timeString = timeString.slice(timeString.indexOf('s') + 1);
+        if (timeString == undefined) {
+            timeString = 'not empty'
+        } else {
+            if (timeString.includes('w')) {
+                weeks = timeString.slice(0, timeString.indexOf('w'));
+                timeString = timeString.slice(timeString.indexOf('w') + 1);
+            }
+            if (timeString.includes('d')) {
+                days = timeString.slice(0, timeString.indexOf('d'));
+                timeString = timeString.slice(timeString.indexOf('d') + 1);
+            }
+            if (timeString.includes('h')) {
+                hours = timeString.slice(0, timeString.indexOf('h'));
+                timeString = timeString.slice(timeString.indexOf('h') + 1);
+            }
+            if (timeString.includes('m')) {
+                minutes = timeString.slice(0, timeString.indexOf('m'));
+                timeString = timeString.slice(timeString.indexOf('m') + 1);
+            }
+            if (timeString.includes('s')) {
+                seconds = timeString.slice(0, timeString.indexOf('s'));
+                timeString = timeString.slice(timeString.indexOf('s') + 1);
+            }
         }
         if (timeString != '') endTime = Date.now()
         else {
