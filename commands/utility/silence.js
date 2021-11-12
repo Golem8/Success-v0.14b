@@ -87,7 +87,7 @@ module.exports = {
             mutation = await Mutations.findOne({ where: { uuid: uuid } });
             const rowCount = await Mutations.destroy({ where: { uuid: mutation.uuid } });
             if (!rowCount) console.error('No mutation found to delete');
-            if ((mutation.endTime) - Date.now() > 1000) {
+            if ((mutation.endTime) - Date.now() > 0) {
 
                 await Mutations.create({
                     muteeSnowflake: mutation.muteeSnowflake,
