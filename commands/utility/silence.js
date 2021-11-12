@@ -25,6 +25,7 @@ module.exports = {
         let minutes = 0;
         let seconds = 0;
         let endTime = 0;
+        let reason = 'none given';
         if(user == undefined){
             return message.reply("Please ping someone to mute")
         }
