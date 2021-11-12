@@ -9,7 +9,7 @@ module.exports = {
     description: 'adds the silent observer role',
     guildOnly: true,
     argsRequired: false,
-    usage: "mute @user <timeString> <reason>",
+    usage: "mute @user <timeString> <OPTIONAL: reason>",
 
     async execute(message, args) {
         //var role = message.guild.roles.cache.find(role => role.name === "Silent Observer");
@@ -53,7 +53,7 @@ module.exports = {
 
         //ensure the correct args are being used
         if (reason == undefined || reason == '') {
-            return message.reply(`Please follow: !${this.usage}`)
+            reason = 'no reason given';
         }
         endTime = Date.now() + (604800000 * weeks) + (86400000 * days) + (3600000 * hours) + (60000 * minutes) + (1000 * seconds);
         uuid = uuidv4();
@@ -72,8 +72,8 @@ module.exports = {
                 user.roles.add(role);
                 return message.react('👍');
             }
-            else{
-                await Mutations.update({ endTime: endTime }, {where: { muteeSnowflake: user.user.id } }); //update mute time
+            else {
+                await Mutations.update({ endTime: endTime }, { where: { muteeSnowflake: user.user.id } }); //update mute time
                 return message.react('👍');
             }
 
@@ -100,11 +100,11 @@ module.exports = {
             } else {
                 guild = client.guilds.cache.find(guild => guild.id === mutation.guildSnowflake)
                 //get the user
-                user = guild.members.cache.find(user => user.id === mutation.muteeSnowflake) 
-                
+                user = guild.members.cache.find(user => user.id === mutation.muteeSnowflake)
+
                 role = guild.roles.cache.find(role => role.name === mutedRoleName);
                 user.roles.remove(role);
-                
+
             }
 
         }, Date.parse(mutation.endTime) - Date.now(), uuid, client); //param 3 is send as a argument to the function that is called back
