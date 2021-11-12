@@ -2,7 +2,7 @@ require('dotenv').config();
 const Mutations = require('../../db').Mutations;
 const { v4: uuidv4 } = require('uuid');
 
-mutedRoleName = "new role"
+mutedRoleName = "Silent Observer"
 
 module.exports = {
     name: 'mute',
