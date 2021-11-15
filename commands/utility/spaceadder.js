@@ -9,7 +9,7 @@ module.exports = {
         numSpaces = args[0];
         args.shift();
         content = args.join(' ');
-        returnStr = ' '
+        returnStr = ''
 
         if (numSpaces == -1) {
             for (let i = 0; i < content.length; i++) {
@@ -26,6 +26,6 @@ module.exports = {
                 }
             }
         }
-        return message.reply(returnStr)
+        return message.channel.send(returnStr)
     },
 };
