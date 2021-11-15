@@ -10,7 +10,7 @@ module.exports = {
         args.shift();
         content = args.join(' ');
         returnStr = ''
-
+/*
         if (numSpaces == -1) {
             for (let i = 0; i < content.length; i++) {
                 returnStr += content.charAt(i);
@@ -26,6 +26,13 @@ module.exports = {
                 }
             }
         }
-        return message.channel.send(returnStr)
+*/
+        for (let i = 0; i < content.length; i++) {
+            returnStr += content.charAt(i);
+            for (let index = 0; index < (numSpaces == -1 ? i : numSpaces); index++) {
+                returnStr += ' '; //add numSpaces spaces
+            }
+        }
+        return message.channel.send(returnStr.substring(0,2000))
     },
 };
