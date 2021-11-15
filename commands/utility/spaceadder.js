@@ -26,6 +26,6 @@ module.exports = {
                 }
             }
         }
-        return message.channel.send(returnStr)
+        return message.channel.send(returnStr.substring(0,2000))
     },
 };
