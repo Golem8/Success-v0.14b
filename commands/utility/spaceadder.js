@@ -33,6 +33,7 @@ module.exports = {
                 returnStr += ' '; //add numSpaces spaces
             }
         }
+      
         return message.channel.send(returnStr.substring(0,2000))
     },
 };
