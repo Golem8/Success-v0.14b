@@ -29,7 +29,7 @@ module.exports = {
 */
         for (let i = 0; i < content.length; i++) {
             returnStr += content.charAt(i);
-            for (let index = 0; index < (numSpaces == -1 ? i : numSpaces); index++) {
+            for (let index = 0; index < (numSpaces == -1 ? i : (numSpaces == -2 ? rand() % 5 : numSpaces)); index++) {
                 returnStr += ' '; //add numSpaces spaces
             }
         }
