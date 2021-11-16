@@ -23,7 +23,7 @@ module.exports = {
       users.forEach(async userSnowflake => {
         const dbEntry = await pingdb.findOne({
           where: {
-            username: message.author.id,
+            username: userSnowflake,
             server: message.guild.id
           }
         });
