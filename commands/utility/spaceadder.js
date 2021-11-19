@@ -21,6 +21,6 @@ module.exports = {
         for (let i = 0; i < Math.floor(returnStr.length / 2000); i++) {
             message.channel.send(returnStr.substring(2000 * i, 2000 * (i + 1)))
         }
-        return message.channel.send(returnStr.substring(returnStr.length - (returnStr.length % 2000))
+        return message.channel.send(returnStr.substring(returnStr.length - (returnStr.length % 2000)))
     },
 };
