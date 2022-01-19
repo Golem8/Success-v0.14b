@@ -159,33 +159,33 @@ async function checkMutations() {
 
 //voice join/leave detection code taken from
 //https://www.reddit.com/r/discordapp/comments/6p85uf/discordjs_any_way_to_detect_when_someone_enter_a/
-client.on('voiceStateUpdate', async (oldMember, newMember) => {
-  let newUserChannel = newMember.channel
-  let oldUserChannel = oldMember.channel
-  let snowflake = newMember.member.id
+// client.on('voiceStateUpdate', async (oldMember, newMember) => {
+//   let newUserChannel = newMember.channel
+//   let oldUserChannel = oldMember.channel
+//   let snowflake = newMember.member.id
 
-  if (oldUserChannel == undefined && newUserChannel !== undefined && justJoined == false) {
-    setTimeout(() => { justJoined = false; }, 300);
-    justJoined = true;
-    // User Joins a voice channel
-    let max = 15 * 60 * 1000
-    let min = 5 * 60 * 1000
+//   if (oldUserChannel == undefined && newUserChannel !== undefined && justJoined == false) {
+//     setTimeout(() => { justJoined = false; }, 300);
+//     justJoined = true;
+//     // User Joins a voice channel
+//     let max = 15 * 60 * 1000
+//     let min = 5 * 60 * 1000
     
-    // only say eeeeee 20% of the time
-    if (Math.random() < 0.2) {
-      setTimeout(async () => {
+//     // only say eeeeee 20% of the time
+//     if (Math.random() < 0.2) {
+//       setTimeout(async () => {
 
-        const connection = await newMember.member.voice.channel.join();
-        const dispatcher = connection.play('./eee.mp3');
-        dispatcher.on("finish", finish => { newMember.member.voice.channel.leave() });
-      }, Math.floor(Math.random() * (max - min + 1) + min));
-    }
-  } else if (newUserChannel === undefined) {
+//         const connection = await newMember.member.voice.channel.join();
+//         const dispatcher = connection.play('./eee.mp3');
+//         dispatcher.on("finish", finish => { newMember.member.voice.channel.leave() });
+//       }, Math.floor(Math.random() * (max - min + 1) + min));
+//     }
+//   } else if (newUserChannel === undefined) {
 
-    // User leaves a voice channel
+//     // User leaves a voice channel
 
-  }
-})
+//   }
+// })
 
 // login to Discord with bot token
 client.login(process.env.BOT_TOKEN);
