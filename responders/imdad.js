@@ -10,7 +10,7 @@ module.exports = {
 			return; //waste no more time doing any calculations, dont dad ping someone twice in a row
 
 		const niceMessage = message.content.toLowerCase();
-		let triggers = ["im", "i'm", "i’m", "i am", "je suis"]
+		let triggers = ["im", "i'm", "i’m", "i am", "je suis", "i\"m"]
 
 		triggers.forEach(function (element) {
 			if (niceMessage.includes(element)) {
